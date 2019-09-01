@@ -13,7 +13,7 @@
     {% endfor %}
     <h1>音频一：{{ voc1_name }}</h1>
     <h1>音频二：{{ voc2_name }}</h1>
-    <h1>匹配度：{{ acc }}</h1>
+    <h1>匹配度：{{ score }}</h1>
     <a class="btn btn-success btn-lg" href="{{ url_for('voice_check') }}">再次匹配</a>
 </body>
 </html>

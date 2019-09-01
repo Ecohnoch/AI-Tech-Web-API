@@ -198,3 +198,10 @@ dmypy.json
 # uploaded files
 uploads/
 
+.idea/$PRODUCT_WORKSPACE_FILE$
+.idea/.gitignore
+.idea/AI-Tech-Web-API.iml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml

@@ -7,6 +7,9 @@ from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 from flask_bootstrap import Bootstrap
 
+from speaker_score.speaker_score import VoiceScore
+
+
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 ALLOWED_EXTENSIONS = {'wav'}
 app = Flask(__name__)
@@ -14,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 bootstrap = Bootstrap(app)
+vs = VoiceScore(os.path.join(os.getcwd(), 'speaker_score/ckpt/Speaker_vox_iter_18000.ckpt'))
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,9 +35,13 @@ def voice_check():
         secure_voc2_name = secure_save_file(voc2)
         if not secure_voc1_name or not secure_voc2_name:
             return render_template('index.html', form=form)
-        acc = 0.937
-        return render_template('result.html', voc1_name=secure_voc1_name,
-                               voc2_name=secure_voc2_name, acc=acc)
+        voc1_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_voc1_name)
+        voc2_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_voc2_name)
+        score = vs.cal_score(voc1_path, voc2_path)
+        return render_template('result.html',
+                               voc1_name=secure_voc1_name,
+                               voc2_name=secure_voc2_name,
+                               score=score)
     return render_template('index.html', form=form)
 
 
