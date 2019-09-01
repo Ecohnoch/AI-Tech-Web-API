@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+</head>
+<body>
+    {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ message[0] }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message[1] }}
+        </div>
+    {% endfor %}
+    <h1>音频一：{{ voc1_name }}</h1>
+    <h1>音频二：{{ voc2_name }}</h1>
+    <h1>匹配度：{{ acc }}</h1>
+    <a class="btn btn-success btn-lg" href="{{ url_for('voice_check') }}">再次匹配</a>
+</body>
+</html>
